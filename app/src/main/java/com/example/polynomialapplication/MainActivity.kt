@@ -1,6 +1,7 @@
 package com.example.polynomialapplication
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -14,6 +15,10 @@ import androidx.compose.ui.unit.dp
 import com.example.polynomialapplication.ui.theme.PolynomialApplicationTheme
 
 class MainActivity : ComponentActivity() {
+    private fun onArithmeticException(e: ArithmeticException){
+        Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+        System.err.println(e.message.toString())
+    }
     @OptIn(ExperimentalLayoutApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,17 +100,31 @@ class MainActivity : ComponentActivity() {
                                                 (polynomialList[size - 2] * polynomialList[size - 1])
                                         }
                                         MyButton(icon = null, text = "Divide") {
-                                            polynomialList = polynomialList.subList(0, size - 2) +
-                                                (polynomialList[size - 2] / polynomialList[size - 1])
+                                            try {
+                                                polynomialList = polynomialList.subList(0, size - 2) +
+                                                    (polynomialList[size - 2] / polynomialList[size - 1])
+                                            } catch (e: ArithmeticException) {
+                                                onArithmeticException(e)
+                                            }
                                         }
                                         MyButton(icon = null, text = "Remainder") {
-                                            polynomialList = polynomialList.subList(0, size - 2) +
-                                                (polynomialList[size - 2] % polynomialList[size - 1])
+                                            try {
+                                                polynomialList = polynomialList.subList(0, size - 2) +
+                                                    (polynomialList[size - 2] % polynomialList[size - 1])
+                                            } catch (e: ArithmeticException) {
+                                                onArithmeticException(e)
+                                            }
                                         }
                                         MyButton(icon = null, text = "Divide with remainder") {
-                                            polynomialList = polynomialList.subList(0, size - 2) +
-                                                polynomialList[size - 2]
-                                                    .divRem(polynomialList[size - 1]).toList()
+                                            try {
+                                                polynomialList =
+                                                    polynomialList.subList(0, size - 2) +
+                                                        polynomialList[size - 2]
+                                                            .divRem(polynomialList[size - 1])
+                                                            .toList()
+                                            } catch (e: java.lang.ArithmeticException) {
+                                                onArithmeticException(e)
+                                            }
                                         }
                                     }
                                 }
