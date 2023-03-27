@@ -207,6 +207,16 @@ open class Polynomial : Cloneable {
         fun linear(a: Double, b: Double) = Polynomial(Pair(1, a), Pair(0, b))
         fun quadratic(a: Double, b: Double, c: Double) =
             Polynomial(Pair(2, a), Pair(1, b), Pair(0, c))
+        /* input format definition in BNF
+            <polynomial> ::= <polynomial_word> <opt_ws> <sign> <opt_ws> <polynomial> | <polynomial_word>
+            <polynomial_word> ::= <float> "x" <opt_ws> "^" <opt_ws> <uint> | "x" <opt_ws> "^" <opt_ws> <uint> | <float> "x" | "x" | <float>
+            <opt_ws> ::= <whitespace> | E
+            <whitespace> ::= " " | "\n" | "\t" | <whitespace> <whitespace>
+            <float> ::= <int> | <int> "." <uint>
+            <int> ::= <uint> | <sign> <uint>
+            <uint> ::= [0-9]+
+            <sign> ::= "+" | "-"
+         */
         fun fromString(string: String): Polynomial =
             Polynomial(string
                 .replace(" ", "")
