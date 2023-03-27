@@ -181,7 +181,7 @@ open class Polynomial : Cloneable {
         fun quadratic(a: Double, b: Double, c: Double) =
             Polynomial(Pair(2, a), Pair(1, b), Pair(0, c))
         fun fromString(string: String): Polynomial =
-            Polynomial(string // Tak, opieram swoją funkcję o podmienianie tekstu i co mi zrobisz?
+            Polynomial(string
                 .replace(" ", "")
                 .replace("*", "")
                 .replace("-", "+-")
