@@ -17,8 +17,8 @@ import com.example.polynomialapplication.ui.theme.PolynomialApplicationTheme
 
 class MainActivity : ComponentActivity() {
     private fun onArithmeticException(e: ArithmeticException){
-        Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
-        System.err.println(e.message.toString())
+        Toast.makeText(this, "ArithmeticException: ${e.message}", Toast.LENGTH_SHORT).show()
+        System.err.println("ArithmeticException: ${e.message}")
     }
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
