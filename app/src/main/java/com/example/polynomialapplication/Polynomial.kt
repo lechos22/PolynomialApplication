@@ -178,10 +178,17 @@ open class Polynomial : Cloneable {
             qs.flatMap { q ->
                 ps.map { p -> p / q }
                     .filter { this@Polynomial(it) == 0.0 }
-            }.map {
-                val divisor = linear(1.0, -it)
-                acc /= divisor
-                divisor
+                    .flatMap {
+                        val divisor = linear(1.0, -it)
+                        var divRem = acc.divRem(divisor)
+                        var count = 0
+                        while(divRem.second.isZero()) {
+                            acc = divRem.first
+                            count++
+                            divRem = acc.divRem(divisor)
+                        }
+                        (1..count).map{ divisor }
+                    }
             } + if(!acc.isZero()) listOf(acc) else emptyList()
         } else listOf(this)
 
