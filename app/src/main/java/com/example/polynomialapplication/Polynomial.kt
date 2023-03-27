@@ -169,13 +169,9 @@ open class Polynomial : Cloneable {
                     .mapKeys { (m, _) -> m - this.coefficients.lastKey() }
             )
 
-    open fun dropUnit(): List<Polynomial> =
-        if(degree() == 0 && coefficients[0] == 1.0) emptyList()
-        else listOf(this)
-
     open fun factorize(): List<Polynomial> =
         zeroesReduction()
-            .flatMap(Polynomial::dropUnit)
+            .filter { it.degree() != 0 || it.coefficients[0] != 1.0 }
             .ifEmpty { listOf(constant(1.0)) }
 
     companion object {
