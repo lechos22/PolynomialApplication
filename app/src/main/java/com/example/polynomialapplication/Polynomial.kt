@@ -141,9 +141,9 @@ open class Polynomial : Cloneable {
         return if (builder.isNotEmpty())
             builder.substring(3)
                 .replace("+ -", "- ")
-                .replace(Regex(".0x"), "x")
-                .replace(Regex(".0 "), " ")
-                .replace(Regex(".0$"), "")
+                .replace(Regex("\\.0x"), "x")
+                .replace(Regex("\\.0 "), " ")
+                .replace(Regex("\\.0$"), "")
                 .replace("-1x", "-x")
         else
             "0"
