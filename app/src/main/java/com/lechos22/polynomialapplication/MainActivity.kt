@@ -1,4 +1,4 @@
-package com.example.polynomialapplication
+package com.lechos22.polynomialapplication
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -13,7 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.polynomialapplication.ui.theme.PolynomialApplicationTheme
+import com.lechos22.polynomialapplication.ui.theme.PolynomialApplicationTheme
 
 class MainActivity : ComponentActivity() {
     private fun onArithmeticException(e: ArithmeticException){

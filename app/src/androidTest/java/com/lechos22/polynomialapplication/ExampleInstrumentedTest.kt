@@ -1,4 +1,4 @@
-package com.example.polynomialapplication
+package com.lechos22.polynomialapplication
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

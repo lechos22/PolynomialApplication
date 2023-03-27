@@ -1,4 +1,4 @@
-package com.example.polynomialapplication
+package com.lechos22.polynomialapplication
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -9,7 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.polynomialapplication.ui.theme.PolynomialApplicationTheme
+import com.lechos22.polynomialapplication.ui.theme.PolynomialApplicationTheme
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable

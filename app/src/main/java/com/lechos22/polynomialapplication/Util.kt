@@ -1,4 +1,4 @@
-package com.example.polynomialapplication
+package com.lechos22.polynomialapplication
 
 import kotlin.math.roundToLong
 import kotlin.math.sqrt

@@ -1,4 +1,4 @@
-package com.example.polynomialapplication.ui.theme
+package com.lechos22.polynomialapplication.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

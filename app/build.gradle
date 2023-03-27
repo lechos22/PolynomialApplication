@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.polynomialapplication'
+    namespace 'com.lechos22.polynomialapplication'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.polynomialapplication"
+        applicationId "com.lechos22.polynomialapplication"
         minSdk 21
         targetSdk 33
         versionCode 1

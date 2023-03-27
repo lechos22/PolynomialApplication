@@ -1,4 +1,4 @@
-package com.example.polynomialapplication
+package com.lechos22.polynomialapplication
 
 import java.util.SortedMap
 import kotlin.math.absoluteValue

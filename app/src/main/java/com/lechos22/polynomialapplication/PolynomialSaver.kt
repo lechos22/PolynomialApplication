@@ -1,4 +1,4 @@
-package com.example.polynomialapplication
+package com.lechos22.polynomialapplication
 
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.SaverScope
@@ -10,5 +10,5 @@ class PolynomialListSaver : Saver<List<Polynomial>, String> {
             .substringBeforeLast("|")
     override fun restore(value: String): List<Polynomial> =
         value.split("|")
-            .map(Polynomial::deserialize)
+            .map(Polynomial.Companion::deserialize)
 }

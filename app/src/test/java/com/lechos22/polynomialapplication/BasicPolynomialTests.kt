@@ -1,4 +1,4 @@
-package com.example.polynomialapplication
+package com.lechos22.polynomialapplication
 
 import org.junit.Assert
 import org.junit.Test
@@ -17,14 +17,17 @@ class BasicPolynomialTests {
     @Test
     fun degreeTest() {
         assert(Polynomial().degree() == 0)
-        assert(Polynomial(
+        assert(
+            Polynomial(
             Pair(1, 2.0)
         ).degree() == 1)
-        assert(Polynomial(
+        assert(
+            Polynomial(
             Pair(3, 3.0),
             Pair(5, 4.0)
         ).degree() == 5)
-        assert(Polynomial(
+        assert(
+            Polynomial(
             Pair(6, 5.0),
             Pair(2, 6.0)
         ).degree() == 6)
