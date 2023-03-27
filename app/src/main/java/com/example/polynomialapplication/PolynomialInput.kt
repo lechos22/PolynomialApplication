@@ -3,6 +3,7 @@ package com.example.polynomialapplication
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
@@ -16,7 +17,7 @@ import com.example.polynomialapplication.ui.theme.PolynomialApplicationTheme
 fun PolynomialInput(onInput: (String) -> Unit) {
     var text by remember { mutableStateOf("") }
     FlowColumn {
-        TextField(
+        OutlinedTextField(
             value = text,
             onValueChange = { text = it.filter { c ->
                 c.isDigit() || c in "x+-^. "

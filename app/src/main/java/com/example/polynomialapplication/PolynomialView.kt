@@ -1,5 +1,6 @@
 package com.example.polynomialapplication
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -10,10 +11,11 @@ import com.example.polynomialapplication.ui.theme.PolynomialApplicationTheme
 
 @Composable
 fun PolynomialView(polynomial: Polynomial) =
-    Text(
-        text = polynomial.roundedString(6),
-        modifier = Modifier.padding(2.dp)
-    )
+    Box(modifier = Modifier.padding(vertical = 7.dp, horizontal = 2.dp)) {
+        Text(
+            text = polynomial.roundedString(6)
+        )
+    }
 
 @Preview(showBackground = false)
 @Composable

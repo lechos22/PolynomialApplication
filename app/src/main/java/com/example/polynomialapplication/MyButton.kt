@@ -31,7 +31,7 @@ fun MyButton(
             end = 20.dp,
             bottom = 12.dp
         ),
-        modifier = Modifier.fillMaxWidth(0.3F)
+        modifier = Modifier.fillMaxWidth()
     ) {
         icon?.let {
             Icon(
