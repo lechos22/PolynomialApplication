@@ -27,7 +27,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    var polynomialList by rememberSaveable(stateSaver = PolynomialListSaver(), init = { mutableStateOf(listOf()) })
+                    var polynomialList by rememberSaveable(
+                        stateSaver = PolynomialListSaver(),
+                        init = { mutableStateOf(listOf()) }
+                    )
                     FlowColumn(
                         modifier = Modifier.padding(10.dp)
                     ) {

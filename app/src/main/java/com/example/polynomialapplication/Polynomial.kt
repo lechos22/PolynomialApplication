@@ -173,7 +173,10 @@ open class Polynomial : Cloneable {
         if(degree() == 0 && coefficients[0] == 1.0) emptyList()
         else listOf(this)
 
-    open fun factorize(): List<Polynomial> = zeroesReduction().flatMap(Polynomial::dropUnit)
+    open fun factorize(): List<Polynomial> =
+        zeroesReduction()
+            .flatMap(Polynomial::dropUnit)
+            .ifEmpty { listOf(constant(1.0)) }
 
     companion object {
         fun constant(a: Double) = Polynomial(Pair(0, a))
