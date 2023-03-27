@@ -1,5 +1,5 @@
 # PolynomialApplication
 
-## Desctription
+## Description
 
-Mobile polynomial calculator app
+Mobile stack-oriented polynomial calculator app
