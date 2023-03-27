@@ -1,6 +1,7 @@
 package com.example.polynomialapplication
 
 import java.util.SortedMap
+import kotlin.math.absoluteValue
 import kotlin.math.pow
 import kotlin.math.roundToLong
 
@@ -162,15 +163,35 @@ open class Polynomial : Cloneable {
             ""
     }
 
-    open fun zeroesReduction(): List<Polynomial> =
+    open fun zeroesDeduction(): List<Polynomial> =
         (1..this.coefficients.lastKey()).map { linear(1.0, 0.0) } +
             Polynomial(
                 this.coefficients
                     .mapKeys { (m, _) -> m - this.coefficients.lastKey() }
             )
 
+    open fun rationalRootsDeduction(): List<Polynomial> =
+        if(coefficients.isNotEmpty() && coefficients.all { it.value % 1.0 == 0.0 }) {
+            val ps = divisors(coefficients[coefficients.lastKey()]!!.absoluteValue)
+            val qs = plusMinus(divisors(coefficients[degree()]!!.absoluteValue))
+            var acc = this.clone()
+            qs.flatMap { q ->
+                ps.map { p -> p / q }
+                    .filter { this@Polynomial(it) == 0.0 }
+            }.map {
+                val divisor = linear(1.0, -it)
+                acc /= divisor
+                divisor
+            } + if(!acc.isZero()) listOf(acc) else emptyList()
+        } else listOf(this)
+
     open fun factorize(): List<Polynomial> =
-        zeroesReduction()
+        mutableListOf(this)
+            .run {
+                addAll(removeLast().zeroesDeduction())
+                addAll(removeLast().rationalRootsDeduction())
+                this
+            }
             .filter { it.degree() != 0 || it.coefficients[0] != 1.0 }
             .ifEmpty { listOf(constant(1.0)) }
 
