@@ -9,7 +9,7 @@ class BasicPolynomialTests {
         assert(Polynomial().isZero())
         assert(
             Polynomial(
-                Pair(1, 0.0)
+                Pair(1, BigFract.ZERO)
             ).isZero()
         )
     }
@@ -19,17 +19,17 @@ class BasicPolynomialTests {
         assert(Polynomial().degree() == 0)
         assert(
             Polynomial(
-            Pair(1, 2.0)
+            Pair(1, BigFract(2.0))
         ).degree() == 1)
         assert(
             Polynomial(
-            Pair(3, 3.0),
-            Pair(5, 4.0)
+            Pair(3, BigFract(3.0)),
+            Pair(5, BigFract(4.0))
         ).degree() == 5)
         assert(
             Polynomial(
-            Pair(6, 5.0),
-            Pair(2, 6.0)
+            Pair(6, BigFract(5.0)),
+            Pair(2, BigFract(6.0))
         ).degree() == 6)
     }
 
@@ -37,9 +37,9 @@ class BasicPolynomialTests {
     fun equalsTest() {
         assert(
             Polynomial(
-                Pair(1, 1.0)
+                Pair(1, BigFract.ONE)
             ) == Polynomial(
-                Pair(1, 1.0)
+                Pair(1, BigFract.ONE)
             )
         )
     }
@@ -48,23 +48,23 @@ class BasicPolynomialTests {
     fun notEqualsTest() {
         assert(
             Polynomial(
-                Pair(2, 1.0)
+                Pair(2, BigFract.ONE)
             ) != Polynomial(
-                Pair(1, 1.0)
+                Pair(1, BigFract.ONE)
             )
         )
         assert(
             Polynomial(
-                Pair(1, 2.0)
+                Pair(1, BigFract(2.0))
             ) != Polynomial(
-                Pair(1, 1.0)
+                Pair(1, BigFract.ONE)
             )
         )
         assert(
-            Polynomial(Pair(1, 2.0)) != Polynomial()
+            Polynomial(Pair(1, BigFract(2.0))) != Polynomial()
         )
         assert(
-            Polynomial() != Polynomial(Pair(1, 2.0))
+            Polynomial() != Polynomial(Pair(1, BigFract(2.0)))
         )
     }
 
@@ -73,7 +73,7 @@ class BasicPolynomialTests {
         val polynomial = Polynomial()
         val polynomial2 = polynomial.clone()
         Assert.assertEquals(polynomial, polynomial2)
-        polynomial2 += Polynomial(Pair(1, 1.0))
+        polynomial2 += Polynomial(Pair(1, BigFract.ONE))
         Assert.assertNotEquals(polynomial, polynomial2)
     }
 
@@ -85,26 +85,26 @@ class BasicPolynomialTests {
         )
         Assert.assertEquals("1",
             Polynomial(
-                Pair(0, 1.0)
+                Pair(0, BigFract.ONE)
             ).toString()
         )
         Assert.assertEquals(
             "x^2",
             Polynomial(
-                Pair(2, 1.0)
+                Pair(2, BigFract.ONE)
             ).toString()
         )
         Assert.assertEquals(
             "x",
             Polynomial(
-                Pair(1, 1.0)
+                Pair(1, BigFract.ONE)
             ).toString()
         )
         Assert.assertEquals(
             "x + 1",
             Polynomial(
-                Pair(1, 1.0),
-                Pair(0, 1.0)
+                Pair(1, BigFract.ONE),
+                Pair(0, BigFract.ONE)
             ).toString()
         )
     }
@@ -114,8 +114,8 @@ class BasicPolynomialTests {
         Assert.assertEquals(
             "1,5.0;0,1.3",
             Polynomial(
-                Pair(1, 5.0),
-                Pair(0, 1.3)
+                Pair(1, BigFract(5.0)),
+                Pair(0, BigFract(1.3))
             ).serialize()
         )
     }

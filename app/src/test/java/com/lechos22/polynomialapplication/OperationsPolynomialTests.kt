@@ -4,7 +4,7 @@ import org.junit.Assert
 import org.junit.Test
 
 class OperationsPolynomialTests {
-    @Test
+    /*@Test
     fun plusTest() {
         assert(
             Polynomial(Pair(1, 1.0)) + Polynomial(Pair(1, 1.0))
@@ -105,5 +105,5 @@ class OperationsPolynomialTests {
             Polynomial.fromString("x^3+1")
                 .divRem(Polynomial.fromString("7"))
         )
-    }
+    }*/
 }

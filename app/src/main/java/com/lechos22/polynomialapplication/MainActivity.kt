@@ -1,10 +1,12 @@
 package com.lechos22.polynomialapplication
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -15,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.lechos22.polynomialapplication.ui.theme.PolynomialApplicationTheme
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 class MainActivity : ComponentActivity() {
     private fun onArithmeticException(e: ArithmeticException){
         Toast.makeText(this, "ArithmeticException: ${e.message}", Toast.LENGTH_SHORT).show()

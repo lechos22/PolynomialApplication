@@ -1,30 +1,30 @@
 package com.lechos22.polynomialapplication
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.util.SortedMap
-import kotlin.math.absoluteValue
-import kotlin.math.pow
-import kotlin.math.roundToLong
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 open class Polynomial : Cloneable {
-    private var coefficients: SortedMap<Int, Double>
+    private var coefficients: SortedMap<Int, BigFract>
 
-    constructor(coefficients: Map<Int, Double>) {
+    constructor(coefficients: Map<Int, BigFract>) {
         this.coefficients = coefficients
-            .filter { (_, a) -> a != 0.0 }
+            .filter { (_, a) -> !a.isZero() }
             .toSortedMap(reverseOrder())
     }
 
-    constructor(vararg coefficients: Pair<Int, Double>) {
+    constructor(vararg coefficients: Pair<Int, BigFract>) {
         this.coefficients = coefficients
             .toMap()
-            .filter { (_, a) -> a != 0.0 }
+            .filter { (_, a) -> !a.isZero() }
             .toSortedMap(reverseOrder())
     }
 
-    constructor(coefficients: List<Pair<Int, Double>>) {
+    constructor(coefficients: List<Pair<Int, BigFract>>) {
         this.coefficients = coefficients
             .toMap()
-            .filter { (_, a) -> a != 0.0 }
+            .filter { (_, a) -> !a.isZero() }
             .toSortedMap(reverseOrder())
     }
 
@@ -36,28 +36,28 @@ open class Polynomial : Cloneable {
     fun degree(): Int = if (coefficients.size == 0) 0 else coefficients.firstKey()
     fun isZero(): Boolean = coefficients.size == 0
 
-    operator fun invoke(x: Double): Double =
-        coefficients.entries.fold(0.0) { acc, (n, a) ->
+    operator fun invoke(x: BigFract): BigFract =
+        coefficients.entries.fold(BigFract.ZERO) { acc, (n, a) ->
             acc + x.pow(n) * a
         }
 
     public override fun clone() = Polynomial(coefficients)
     operator fun unaryPlus(): Polynomial = this.clone()
     operator fun plus(other: Polynomial): Polynomial {
-        val acc = mutableMapOf<Int, Double>()
+        val acc = mutableMapOf<Int, BigFract>()
         coefficients.forEach { (n, a) ->
             acc[n] = a
         }
         other.coefficients.forEach { (n, a) ->
-            acc[n] = (acc[n] ?: 0.0) + a
+            acc[n] = (acc[n] ?: BigFract.ZERO) + a
         }
         return Polynomial(acc)
     }
 
     operator fun plusAssign(other: Polynomial) {
         other.coefficients.forEach { (n, a) ->
-            coefficients[n] = (coefficients[n] ?: 0.0) + a
-            if (coefficients[n] == 0.0)
+            coefficients[n] = (coefficients[n] ?: BigFract.ZERO) + a
+            if (coefficients[n]!!.isZero())
                 coefficients.remove(n)
         }
     }
@@ -70,39 +70,37 @@ open class Polynomial : Cloneable {
     operator fun minus(other: Polynomial): Polynomial = this + -other
     operator fun minusAssign(other: Polynomial) {
         other.coefficients.forEach { (n, a) ->
-            coefficients[n] = (coefficients[n] ?: 0.0) - a
-            if (coefficients[n] == 0.0)
+            coefficients[n] = (coefficients[n] ?: BigFract.ZERO) - a
+            if (coefficients[n]!!.isZero())
                 coefficients.remove(n)
         }
     }
 
-    operator fun times(x: Double) =
+    operator fun times(x: BigFract) =
         Polynomial(
             coefficients.mapValues { (_, a) -> a * x }
         )
 
     operator fun times(other: Polynomial): Polynomial {
-        val acc = mutableMapOf<Int, Double>()
+        val acc = mutableMapOf<Int, BigFract>()
         coefficients.forEach { (n, a) ->
             other.coefficients.forEach { (m, b) ->
-                acc[n + m] = (acc[n + m] ?: 0.0) + a * b
+                acc[n + m] = (acc[n + m] ?: BigFract.ZERO) + a * b
             }
         }
         return Polynomial(acc)
     }
 
-    operator fun div(x: Double) =
+    operator fun div(x: BigFract) =
         Polynomial(
             coefficients.mapValues { (_, a) -> a / x }
         )
 
     open fun divRem(other: Polynomial): Pair<Polynomial, Polynomial> {
-        if (other.coefficients.none { (_, a) ->
-                a > 0.0
-            }) throw ArithmeticException("Division by zero")
-        else if (this.coefficients.none { (_, a) ->
-                a > 0.0
-            }) return Pair(Polynomial(), Polynomial())
+        if (other.coefficients.none { (_, a) -> !a.isZero() })
+            throw ArithmeticException("Division by zero")
+        else if (this.coefficients.none { (_, a) -> !a.isZero() })
+            return Pair(Polynomial(), Polynomial())
         val acc = Polynomial()
         val remainder = this.clone()
         val otherDegree = other.degree()
@@ -125,15 +123,12 @@ open class Polynomial : Cloneable {
 
     override fun hashCode(): Int = coefficients.hashCode()
 
-    open fun roundedString(decimals: Int? = null): String {
+    open fun roundedString(): String {
         val builder = StringBuilder()
         coefficients.forEach { (n, a) ->
             builder.append(" + ")
-            if (a != 1.0 || n == 0)
-                builder.append(decimals?.let {
-                    val factor = 10.0.pow(it)
-                    (a * factor).roundToLong().toDouble() / factor
-                } ?: a)
+            if (a != BigFract.ONE || n == 0)
+                builder.append(a.bigFraction.bigDecimalValue().toEngineeringString())
             if (n == 1)
                 builder.append("x")
             else if (n != 0)
@@ -150,7 +145,7 @@ open class Polynomial : Cloneable {
             "0"
     }
 
-    override fun toString(): String = roundedString(null)
+    override fun toString(): String = roundedString()
 
     open fun serialize(): String {
         val builder = StringBuilder()
@@ -164,22 +159,22 @@ open class Polynomial : Cloneable {
     }
 
     open fun zeroesDeduction(): List<Polynomial> =
-        (1..this.coefficients.lastKey()).map { linear(1.0, 0.0) } +
+        (1..this.coefficients.lastKey()).map { linear(BigFract.ONE, BigFract.ZERO) } +
             Polynomial(
                 this.coefficients
                     .mapKeys { (m, _) -> m - this.coefficients.lastKey() }
             )
 
     open fun rationalRootsDeduction(): List<Polynomial> =
-        if(coefficients.isNotEmpty() && coefficients.all { it.value % 1.0 == 0.0 }) {
+        if(coefficients.isNotEmpty() && coefficients.all { it.value.isRound() }) {
             val ps = divisors(coefficients[coefficients.lastKey()]!!.absoluteValue)
             val qs = plusMinus(divisors(coefficients[degree()]!!.absoluteValue))
             var acc = this.clone()
             qs.flatMap { q ->
                 ps.map { p -> p / q }
-                    .filter { this@Polynomial(it) == 0.0 }
+                    .filter { this@Polynomial(it).isZero() }
                     .flatMap {
-                        val divisor = linear(1.0, -it)
+                        val divisor = linear(BigFract.ONE, -it)
                         var divRem = acc.divRem(divisor)
                         var count = 0
                         while(divRem.second.isZero()) {
@@ -201,13 +196,13 @@ open class Polynomial : Cloneable {
                     addAll(removeLast().rationalRootsDeduction())
                     this
                 }
-                .filter { it.degree() != 0 || it.coefficients[0] != 1.0 }
-                .ifEmpty { listOf(constant(1.0)) }
+                .filter { it.degree() != 0 || it.coefficients[0] != BigFract(1.0) }
+                .ifEmpty { listOf(constant(BigFract.ONE)) }
 
     companion object {
-        fun constant(a: Double) = Polynomial(Pair(0, a))
-        fun linear(a: Double, b: Double) = Polynomial(Pair(1, a), Pair(0, b))
-        fun quadratic(a: Double, b: Double, c: Double) =
+        fun constant(a: BigFract) = Polynomial(Pair(0, a))
+        fun linear(a: BigFract, b: BigFract) = Polynomial(Pair(1, a), Pair(0, b))
+        fun quadratic(a: BigFract, b: BigFract, c: BigFract) =
             Polynomial(Pair(2, a), Pair(1, b), Pair(0, c))
         /* Input format definition in BNF
             <polynomial> ::=
@@ -237,16 +232,16 @@ open class Polynomial : Cloneable {
                 .map {
                     val trimmed = it.trim()
                     if (trimmed == "")
-                        Pair(-1, 0.0)
+                        Pair(-1, BigFract.ZERO)
                     else if (trimmed.matches(Regex("-?[\\d.]+")))
-                        Pair(0, trimmed.toDouble())
+                        Pair(0, BigFract(trimmed))
                     else if (trimmed.matches(Regex("-?[\\d.]*x\\^\\d+"))) {
                         val params = trimmed.split("x^")
-                        Pair(params[1].toInt(), params[0].toDoubleOrNull() ?: 1.0)
+                        Pair(params[1].toInt(), BigFract(params[0].toDoubleOrNull() ?: 1.0))
                     } else if (trimmed.matches(Regex("-?[\\d.]*x")))
                         Pair(
                             1,
-                            trimmed.substring(0, trimmed.length - 1).toDoubleOrNull() ?: 1.0
+                            BigFract(trimmed.substring(0, trimmed.length - 1).toDoubleOrNull() ?: 1.0)
                         )
                     else
                         throw IllegalArgumentException("Trying to parse an invalid polynomial string")
@@ -257,7 +252,7 @@ open class Polynomial : Cloneable {
             Polynomial(string.split(";").map {
                 val params = it.split(",")
                 val n = params[0].toInt()
-                val a = params[1].toDouble()
+                val a = BigFract(params[1].toDouble())
                 Pair(n, a)
             })
     }

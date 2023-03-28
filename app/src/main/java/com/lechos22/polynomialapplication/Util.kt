@@ -1,13 +1,15 @@
 package com.lechos22.polynomialapplication
 
-import kotlin.math.roundToLong
-import kotlin.math.sqrt
+import android.os.Build
+import androidx.annotation.RequiresApi
 
-fun divisors(x: Double): Set<Double> =
-    (1..sqrt(x).roundToLong())
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+fun divisors(x: BigFract): Set<BigFract> =
+    (1..x.sqrt().toInt())
         .filter { x % it.toDouble() == 0.0 }
-        .map(Long::toDouble)
+        .map(Int::toDouble)
+        .map(::BigFract)
         .flatMap { listOf(it, x/it) }
         .toSet()
 
-fun plusMinus(xs: Collection<Double>): List<Double> = xs.flatMap { listOf(it, -it) }
+fun plusMinus(xs: Set<BigFract>): List<BigFract> = xs.flatMap { listOf(it, -it) }
