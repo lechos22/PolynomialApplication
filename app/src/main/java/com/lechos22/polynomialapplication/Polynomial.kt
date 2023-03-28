@@ -5,7 +5,7 @@ import kotlin.math.absoluteValue
 import kotlin.math.pow
 import kotlin.math.roundToLong
 
-class Polynomial : Cloneable {
+open class Polynomial : Cloneable {
     private var coefficients: SortedMap<Int, Double>
 
     constructor(coefficients: Map<Int, Double>) {
@@ -96,7 +96,7 @@ class Polynomial : Cloneable {
             coefficients.mapValues { (_, a) -> a / x }
         )
 
-    fun divRem(other: Polynomial): Pair<Polynomial, Polynomial> {
+    open fun divRem(other: Polynomial): Pair<Polynomial, Polynomial> {
         if (other.coefficients.none { (_, a) ->
                 a > 0.0
             }) throw ArithmeticException("Division by zero")
@@ -125,7 +125,7 @@ class Polynomial : Cloneable {
 
     override fun hashCode(): Int = coefficients.hashCode()
 
-    fun roundedString(decimals: Int? = null): String {
+    open fun roundedString(decimals: Int? = null): String {
         val builder = StringBuilder()
         coefficients.forEach { (n, a) ->
             builder.append(" + ")
@@ -152,7 +152,7 @@ class Polynomial : Cloneable {
 
     override fun toString(): String = roundedString(null)
 
-    fun serialize(): String {
+    open fun serialize(): String {
         val builder = StringBuilder()
         coefficients.forEach { (n, a) ->
             builder.append(";", n, ",", a)
@@ -163,14 +163,14 @@ class Polynomial : Cloneable {
             ""
     }
 
-    fun zeroesDeduction(): List<Polynomial> =
+    open fun zeroesDeduction(): List<Polynomial> =
         (1..this.coefficients.lastKey()).map { linear(1.0, 0.0) } +
             Polynomial(
                 this.coefficients
                     .mapKeys { (m, _) -> m - this.coefficients.lastKey() }
             )
 
-    fun rationalRootsDeduction(): List<Polynomial> =
+    open fun rationalRootsDeduction(): List<Polynomial> =
         if(coefficients.isNotEmpty() && coefficients.all { it.value % 1.0 == 0.0 }) {
             val ps = divisors(coefficients[coefficients.lastKey()]!!.absoluteValue)
             val qs = plusMinus(divisors(coefficients[degree()]!!.absoluteValue))
@@ -192,7 +192,7 @@ class Polynomial : Cloneable {
             } + if(!acc.isZero()) listOf(acc) else emptyList()
         } else listOf(this)
 
-    fun factorize(): List<Polynomial> =
+    open fun factorize(): List<Polynomial> =
         if(isZero()) listOf(this)
         else
             mutableListOf(this)
