@@ -5,7 +5,7 @@ import kotlin.math.absoluteValue
 import kotlin.math.pow
 import kotlin.math.roundToLong
 
-open class Polynomial : Cloneable {
+class Polynomial : Cloneable {
     private var coefficients: SortedMap<Int, Double>
 
     constructor(coefficients: Map<Int, Double>) {
@@ -96,7 +96,7 @@ open class Polynomial : Cloneable {
             coefficients.mapValues { (_, a) -> a / x }
         )
 
-    open fun divRem(other: Polynomial): Pair<Polynomial, Polynomial> {
+    fun divRem(other: Polynomial): Pair<Polynomial, Polynomial> {
         if (other.coefficients.none { (_, a) ->
                 a > 0.0
             }) throw ArithmeticException("Division by zero")
@@ -125,7 +125,7 @@ open class Polynomial : Cloneable {
 
     override fun hashCode(): Int = coefficients.hashCode()
 
-    open fun roundedString(decimals: Int? = null): String {
+    fun roundedString(decimals: Int? = null): String {
         val builder = StringBuilder()
         coefficients.forEach { (n, a) ->
             builder.append(" + ")
@@ -152,7 +152,7 @@ open class Polynomial : Cloneable {
 
     override fun toString(): String = roundedString(null)
 
-    open fun serialize(): String {
+    fun serialize(): String {
         val builder = StringBuilder()
         coefficients.forEach { (n, a) ->
             builder.append(";", n, ",", a)
@@ -163,14 +163,14 @@ open class Polynomial : Cloneable {
             ""
     }
 
-    open fun zeroesDeduction(): List<Polynomial> =
+    fun zeroesDeduction(): List<Polynomial> =
         (1..this.coefficients.lastKey()).map { linear(1.0, 0.0) } +
             Polynomial(
                 this.coefficients
                     .mapKeys { (m, _) -> m - this.coefficients.lastKey() }
             )
 
-    open fun rationalRootsDeduction(): List<Polynomial> =
+    fun rationalRootsDeduction(): List<Polynomial> =
         if(coefficients.isNotEmpty() && coefficients.all { it.value % 1.0 == 0.0 }) {
             val ps = divisors(coefficients[coefficients.lastKey()]!!.absoluteValue)
             val qs = plusMinus(divisors(coefficients[degree()]!!.absoluteValue))
@@ -192,7 +192,7 @@ open class Polynomial : Cloneable {
             } + if(!acc.isZero()) listOf(acc) else emptyList()
         } else listOf(this)
 
-    open fun factorize(): List<Polynomial> =
+    fun factorize(): List<Polynomial> =
         if(isZero()) listOf(this)
         else
             mutableListOf(this)
