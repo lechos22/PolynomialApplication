@@ -14,8 +14,14 @@ class AccurateNumber {
     constructor(bigFraction: BigFraction) {
         this.bigFraction = bigFraction
     }
+    constructor(num: Int, den: Int = 1) {
+        this.bigFraction = BigFraction.of(num, den)
+    }
     constructor(double: Double) {
         this.bigFraction = BigFraction.from(double)
+    }
+    constructor(double: Double, maxDenominator: Int) {
+        this.bigFraction = BigFraction.from(double, maxDenominator)
     }
     constructor(string: String) {
         this.bigFraction = BigFraction.parse(string)

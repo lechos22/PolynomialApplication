@@ -237,11 +237,11 @@ open class Polynomial : Cloneable {
                         Pair(0, AccurateNumber(trimmed))
                     else if (trimmed.matches(Regex("-?[\\d.]*x\\^\\d+"))) {
                         val params = trimmed.split("x^")
-                        Pair(params[1].toInt(), AccurateNumber(params[0].toDoubleOrNull() ?: 1.0))
+                        Pair(params[1].toInt(), AccurateNumber(params[0].toDoubleOrNull() ?: 1.0, 1000))
                     } else if (trimmed.matches(Regex("-?[\\d.]*x")))
                         Pair(
                             1,
-                            AccurateNumber(trimmed.substring(0, trimmed.length - 1).toDoubleOrNull() ?: 1.0)
+                            AccurateNumber(trimmed.substring(0, trimmed.length - 1).toDoubleOrNull() ?: 1.0, 1000)
                         )
                     else
                         throw IllegalArgumentException("Trying to parse an invalid polynomial string")

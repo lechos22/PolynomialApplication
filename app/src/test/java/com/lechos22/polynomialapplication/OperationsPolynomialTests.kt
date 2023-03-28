@@ -4,61 +4,61 @@ import org.junit.Assert
 import org.junit.Test
 
 class OperationsPolynomialTests {
-    /*@Test
+    @Test
     fun plusTest() {
         assert(
-            Polynomial(Pair(1, 1.0)) + Polynomial(Pair(1, 1.0))
-                == Polynomial(Pair(1, 2.0))
+            Polynomial(Pair(1, AccurateNumber.ONE)) + Polynomial(Pair(1, AccurateNumber.ONE))
+                == Polynomial(Pair(1, AccurateNumber(2.0)))
         )
         assert(
-            Polynomial(Pair(1, 1.0)) + Polynomial(Pair(2, 1.0))
-                == Polynomial(Pair(1, 1.0), Pair(2, 1.0))
+            Polynomial(Pair(1, AccurateNumber.ONE)) + Polynomial(Pair(2, AccurateNumber.ONE))
+                == Polynomial(Pair(1, AccurateNumber.ONE), Pair(2, AccurateNumber.ONE))
         )
     }
 
     @Test
     fun unaryMinusTest() {
         assert(
-            -Polynomial(Pair(1, 1.0))
-                == Polynomial(Pair(1, -1.0))
+            -Polynomial(Pair(1, AccurateNumber.ONE))
+                == Polynomial(Pair(1, -AccurateNumber.ONE))
         )
     }
 
     @Test
     fun minusTest() {
         assert(
-            (Polynomial(Pair(1, 1.0)) - Polynomial(Pair(1, 1.0)))
+            (Polynomial(Pair(1, AccurateNumber.ONE)) - Polynomial(Pair(1, AccurateNumber.ONE)))
                 .isZero()
         )
         assert(
-            Polynomial(Pair(1, 2.0)) - Polynomial(Pair(1, 1.0))
-                == Polynomial(Pair(1, 1.0))
+            Polynomial(Pair(1, AccurateNumber(2.0))) - Polynomial(Pair(1, AccurateNumber.ONE))
+                == Polynomial(Pair(1, AccurateNumber.ONE))
         )
         assert(
-            Polynomial(Pair(1, 1.0)) - Polynomial(Pair(2, 1.0))
-                == Polynomial(Pair(1, 1.0), Pair(2, -1.0))
+            Polynomial(Pair(1, AccurateNumber.ONE)) - Polynomial(Pair(2, AccurateNumber.ONE))
+                == Polynomial(Pair(1, AccurateNumber.ONE), Pair(2, -AccurateNumber.ONE))
         )
     }
 
     @Test
-    fun timesDoubleTest() {
+    fun timesScalarTest() {
         assert(
-            Polynomial(Pair(1, 1.0)) * 5.0
-                == Polynomial(Pair(1, 5.0))
+            Polynomial(Pair(1, AccurateNumber.ONE)) * AccurateNumber(5)
+                == Polynomial(Pair(1, AccurateNumber(5)))
         )
     }
 
     @Test
     fun timesPolynomialTest() {
         Assert.assertEquals(
-            Polynomial(Pair(0, 1.0)),
-            Polynomial(Pair(0, 1.0))
-                * Polynomial(Pair(0, 1.0))
+            Polynomial(Pair(0, AccurateNumber.ONE)),
+            Polynomial(Pair(0, AccurateNumber.ONE))
+                * Polynomial(Pair(0, AccurateNumber.ONE))
         )
         Assert.assertEquals(
-            Polynomial(Pair(2, 1.0)),
-            Polynomial(Pair(1, 1.0))
-                * Polynomial(Pair(1, 1.0))
+            Polynomial(Pair(2, AccurateNumber.ONE)),
+            Polynomial(Pair(1, AccurateNumber.ONE))
+                * Polynomial(Pair(1, AccurateNumber.ONE))
         )
         Assert.assertEquals(
             Polynomial.fromString("2x^3+17x^2+22x+7"),
@@ -67,10 +67,10 @@ class OperationsPolynomialTests {
     }
 
     @Test
-    fun divDoubleTest() {
+    fun divScalarTest() {
         Assert.assertEquals(
-            Polynomial(Pair(1, 0.2)),
-            Polynomial(Pair(1, 1.0)) / 5.0
+            Polynomial(Pair(1, AccurateNumber(1, 5))),
+            Polynomial(Pair(1, AccurateNumber.ONE)) / AccurateNumber(5)
         )
     }
 
@@ -79,11 +79,11 @@ class OperationsPolynomialTests {
         Assert.assertEquals(
             Pair(
                 Polynomial(
-                    Pair(1, 1.0)
+                    Pair(1, AccurateNumber.ONE)
                 ),
                 Polynomial(
-                    Pair(1, 1.0),
-                    Pair(0, 1.0)
+                    Pair(1, AccurateNumber.ONE),
+                    Pair(0, AccurateNumber.ONE)
                 )
             ),
             Polynomial.fromString("x^3+2x+1")
@@ -99,11 +99,11 @@ class OperationsPolynomialTests {
         )
         Assert.assertEquals(
             Pair(
-                Polynomial(Pair(3, 1.0 / 7.0), Pair(0, 1.0 / 7.0)),
+                Polynomial(Pair(3, AccurateNumber(1, 7)), Pair(0, AccurateNumber(1, 7))),
                 Polynomial()
             ),
             Polynomial.fromString("x^3+1")
                 .divRem(Polynomial.fromString("7"))
         )
-    }*/
+    }
 }

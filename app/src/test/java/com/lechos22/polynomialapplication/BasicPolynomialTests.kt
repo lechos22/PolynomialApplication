@@ -19,17 +19,17 @@ class BasicPolynomialTests {
         assert(Polynomial().degree() == 0)
         assert(
             Polynomial(
-            Pair(1, AccurateNumber(2.0))
+            Pair(1, AccurateNumber(2))
         ).degree() == 1)
         assert(
             Polynomial(
-            Pair(3, AccurateNumber(3.0)),
-            Pair(5, AccurateNumber(4.0))
+            Pair(3, AccurateNumber(3)),
+            Pair(5, AccurateNumber(4))
         ).degree() == 5)
         assert(
             Polynomial(
-            Pair(6, AccurateNumber(5.0)),
-            Pair(2, AccurateNumber(6.0))
+            Pair(6, AccurateNumber(5)),
+            Pair(2, AccurateNumber(6))
         ).degree() == 6)
     }
 
@@ -55,16 +55,16 @@ class BasicPolynomialTests {
         )
         assert(
             Polynomial(
-                Pair(1, AccurateNumber(2.0))
+                Pair(1, AccurateNumber(2))
             ) != Polynomial(
                 Pair(1, AccurateNumber.ONE)
             )
         )
         assert(
-            Polynomial(Pair(1, AccurateNumber(2.0))) != Polynomial()
+            Polynomial(Pair(1, AccurateNumber(2))) != Polynomial()
         )
         assert(
-            Polynomial() != Polynomial(Pair(1, AccurateNumber(2.0)))
+            Polynomial() != Polynomial(Pair(1, AccurateNumber(2)))
         )
     }
 
@@ -114,7 +114,7 @@ class BasicPolynomialTests {
         Assert.assertEquals(
             "1,5.0;0,1.3",
             Polynomial(
-                Pair(1, AccurateNumber(5.0)),
+                Pair(1, AccurateNumber(5)),
                 Pair(0, AccurateNumber(1.3))
             ).serialize()
         )
