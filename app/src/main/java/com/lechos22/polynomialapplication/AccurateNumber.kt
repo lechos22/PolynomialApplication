@@ -7,10 +7,10 @@ import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.MathContext
 
-class BigFract {
+class AccurateNumber {
     val bigFraction: BigFraction
-    val absoluteValue: BigFract
-        get() = BigFract(bigFraction.abs())
+    val absoluteValue: AccurateNumber
+        get() = AccurateNumber(bigFraction.abs())
     constructor(bigFraction: BigFraction) {
         this.bigFraction = bigFraction
     }
@@ -20,17 +20,17 @@ class BigFract {
     constructor(string: String) {
         this.bigFraction = BigFraction.parse(string)
     }
-    operator fun plus(other: BigFract) = BigFract(bigFraction.add(other.bigFraction))
-    operator fun minus(other: BigFract) = BigFract(bigFraction.subtract(other.bigFraction))
-    operator fun unaryMinus() = BigFract(bigFraction.negate())
-    operator fun times(other: BigFract) = BigFract(bigFraction.multiply(other.bigFraction))
-    operator fun div(other: BigFract) = BigFract(bigFraction.divide(other.bigFraction))
+    operator fun plus(other: AccurateNumber) = AccurateNumber(bigFraction.add(other.bigFraction))
+    operator fun minus(other: AccurateNumber) = AccurateNumber(bigFraction.subtract(other.bigFraction))
+    operator fun unaryMinus() = AccurateNumber(bigFraction.negate())
+    operator fun times(other: AccurateNumber) = AccurateNumber(bigFraction.multiply(other.bigFraction))
+    operator fun div(other: AccurateNumber) = AccurateNumber(bigFraction.divide(other.bigFraction))
     operator fun rem(other: Double) = bigFraction.toDouble() % other
-    operator fun compareTo(other: BigFract) = bigFraction.compareTo(other.bigFraction)
+    operator fun compareTo(other: AccurateNumber) = bigFraction.compareTo(other.bigFraction)
     override fun equals(other: Any?) =
-        if(other is BigFract) bigFraction == other.bigFraction
+        if(other is AccurateNumber) bigFraction == other.bigFraction
         else bigFraction == other
-    fun pow(other: Int) = BigFract(bigFraction.pow(other))
+    fun pow(other: Int) = AccurateNumber(bigFraction.pow(other))
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     fun sqrt(): BigDecimal = bigFraction.bigDecimalValue().sqrt(MathContext.UNLIMITED)
     override fun hashCode() = bigFraction.hashCode()
@@ -39,7 +39,7 @@ class BigFract {
     override fun toString() = bigFraction.toDouble().toString()
 
     companion object {
-        val ZERO = BigFract(BigFraction.ZERO)
-        val ONE = BigFract(BigFraction.ONE)
+        val ZERO = AccurateNumber(BigFraction.ZERO)
+        val ONE = AccurateNumber(BigFraction.ONE)
     }
 }

@@ -27,9 +27,9 @@ fun PolynomialPreview() =
     PolynomialApplicationTheme {
         PolynomialView(
             Polynomial(
-                Pair(2, BigFract.ONE),
-                Pair(1, BigFract.ONE),
-                Pair(0, BigFract.ONE)
+                Pair(2, AccurateNumber.ONE),
+                Pair(1, AccurateNumber.ONE),
+                Pair(0, AccurateNumber.ONE)
             )
         )
     }
