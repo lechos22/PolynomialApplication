@@ -1,10 +1,7 @@
 package com.lechos22.polynomialapplication
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-import java.util.SortedMap
+import java.util.*
 
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 open class Polynomial : Cloneable {
     private var coefficients: SortedMap<Int, AccurateNumber>
 
@@ -234,7 +231,7 @@ open class Polynomial : Cloneable {
                     if (trimmed == "")
                         Pair(-1, AccurateNumber.ZERO)
                     else if (trimmed.matches(Regex("-?[\\d.]+")))
-                        Pair(0, AccurateNumber(trimmed))
+                        Pair(0, AccurateNumber(trimmed.toDouble()))
                     else if (trimmed.matches(Regex("-?[\\d.]*x\\^\\d+"))) {
                         val params = trimmed.split("x^")
                         Pair(params[1].toInt(), AccurateNumber(params[0].toDoubleOrNull() ?: 1.0, 1000))

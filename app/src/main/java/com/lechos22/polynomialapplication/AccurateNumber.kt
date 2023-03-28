@@ -1,11 +1,8 @@
 package com.lechos22.polynomialapplication
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import org.apache.commons.numbers.fraction.BigFraction
-import java.math.BigDecimal
 import java.math.BigInteger
-import java.math.MathContext
+import kotlin.math.pow
 
 class AccurateNumber {
     val bigFraction: BigFraction
@@ -37,8 +34,7 @@ class AccurateNumber {
         if(other is AccurateNumber) bigFraction == other.bigFraction
         else bigFraction == other
     fun pow(other: Int) = AccurateNumber(bigFraction.pow(other))
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-    fun sqrt(): BigDecimal = bigFraction.bigDecimalValue().sqrt(MathContext.UNLIMITED)
+    fun sqrt() = bigFraction.toDouble().pow(0.5)
     override fun hashCode() = bigFraction.hashCode()
     fun isZero() = bigFraction.signum() == 0
     fun isRound(): Boolean = bigFraction.numerator.mod(bigFraction.denominator) == BigInteger.ZERO
