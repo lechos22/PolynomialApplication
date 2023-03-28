@@ -193,14 +193,16 @@ open class Polynomial : Cloneable {
         } else listOf(this)
 
     open fun factorize(): List<Polynomial> =
-        mutableListOf(this)
-            .run {
-                addAll(removeLast().zeroesDeduction())
-                addAll(removeLast().rationalRootsDeduction())
-                this
-            }
-            .filter { it.degree() != 0 || it.coefficients[0] != 1.0 }
-            .ifEmpty { listOf(constant(1.0)) }
+        if(isZero()) listOf(this)
+        else
+            mutableListOf(this)
+                .run {
+                    addAll(removeLast().zeroesDeduction())
+                    addAll(removeLast().rationalRootsDeduction())
+                    this
+                }
+                .filter { it.degree() != 0 || it.coefficients[0] != 1.0 }
+                .ifEmpty { listOf(constant(1.0)) }
 
     companion object {
         fun constant(a: Double) = Polynomial(Pair(0, a))
