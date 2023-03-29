@@ -3,7 +3,7 @@ package com.lechos22.polynomialapplication
 import java.util.*
 
 open class Polynomial : Cloneable {
-    private var coefficients: SortedMap<Int, AccurateNumber>
+    var coefficients: SortedMap<Int, AccurateNumber>
 
     constructor(coefficients: Map<Int, AccurateNumber>) {
         this.coefficients = coefficients
