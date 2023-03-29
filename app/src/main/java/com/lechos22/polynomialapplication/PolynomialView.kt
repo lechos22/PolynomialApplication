@@ -1,8 +1,6 @@
 package com.lechos22.polynomialapplication
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.MaterialTheme
@@ -25,24 +23,28 @@ import java.math.BigInteger
 
 @Composable
 fun FractionView(fraction: BigFraction, baseFontSize: TextUnit){
-    if(fraction.denominator == BigInteger.ONE)
-        Text(fraction.numerator.toString(), Modifier.padding(2.dp), fontSize = baseFontSize)
+    if(fraction.denominator.signum() != fraction.denominator.signum())
+        Text("-", fontSize = baseFontSize)
+    if(fraction.denominator.abs() == BigInteger.ONE)
+        Text(fraction.numerator.abs().toString(), Modifier.padding(2.dp), fontSize = baseFontSize)
     else {
         val color = MaterialTheme.colorScheme.onBackground
         Column(
-            Modifier.padding(4.dp).drawBehind {
-                val strokeWidth = Stroke.DefaultMiter
-                val y = (size.height - strokeWidth) / 2
-                drawLine(
-                    color = color,
-                    start = Offset(0f, y),
-                    end = Offset(size.width, y),
-                    strokeWidth = strokeWidth
-                )
-            }
+            Modifier
+                .padding(4.dp)
+                .drawBehind {
+                    val strokeWidth = Stroke.DefaultMiter
+                    val y = (size.height - strokeWidth) / 2
+                    drawLine(
+                        color = color,
+                        start = Offset(0f, y),
+                        end = Offset(size.width, y),
+                        strokeWidth = strokeWidth
+                    )
+                }
         ) {
-            Text(fraction.numerator.toString(), fontSize = baseFontSize / 2)
-            Text(fraction.denominator.toString(), fontSize = baseFontSize / 2)
+            Text(fraction.numerator.abs().toString(), fontSize = baseFontSize / 2)
+            Text(fraction.denominator.abs().toString(), fontSize = baseFontSize / 2)
         }
     }
 }
